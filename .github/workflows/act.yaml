@@ -32,12 +32,18 @@ jobs:
       env:
         ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
       run: |
-        export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
         mkdir -p $ANDROID_SDK_ROOT/licenses
         echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_SDK_ROOT/licenses/android-sdk-license
         echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_SDK_ROOT/licenses/android-sdk-preview-license
         yes | sdkmanager --licenses
-        sdkmanager --install "build-tools;33.0.2" "platforms;android-33" "platform-tools"
+        sdkmanager "build-tools;33.0.2" "platforms;android-33" "platform-tools"
+
+    - name: Clean up RC Build Tools
+      env:
+        ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
+      run: |
+        export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
+        sdkmanager --uninstall "build-tools;36.0.0-rc1" || true
 
     - name: Install Buildozer
       run: |
@@ -47,15 +53,6 @@ jobs:
 
     - name: Initialize Buildozer
       run: buildozer init
-
-    - name: Ensure android.sdk is set in buildozer.spec
-      run: |
-        if ! grep -q '^android.sdk = ' buildozer.spec; then
-          echo "android.sdk = 33.0.2" >> buildozer.spec
-        fi
-
-    - name: Check buildozer.spec contents
-      run: cat buildozer.spec
 
     - name: Build APK
       run: |
