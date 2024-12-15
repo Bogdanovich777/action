@@ -24,6 +24,9 @@ jobs:
         sudo apt install -y git zip openjdk-11-jdk python3-pip
         pip3 install buildozer cython
 
+    - name: Initialize Buildozer
+      run: buildozer init
+
     - name: Build APK
       run: |
         sudo apt install -y unzip
