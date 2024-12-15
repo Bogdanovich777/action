@@ -43,8 +43,6 @@ jobs:
         echo "859f317696f67ef3d7f507832f877f4a" > $ANDROID_SDK_ROOT/licenses/android-sdk-arm-dbt-license
         # Google GDK license
         echo "d975f751698a77b662f1254ddbeed3901e976f5a" > $ANDROID_SDK_ROOT/licenses/google-gdk-license
-        # MIPS Android license
-        echo "e9acab5b5fbb560a72cfaecce8946896ff6aab9d" > $ANDROID_SDK_ROOT/licenses/mips-android-sysimage-license
         export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
         yes | sdkmanager --licenses || true
 
