@@ -50,7 +50,14 @@ jobs:
 
     - name: Update buildozer.spec for stable Build Tools
       run: |
+        original_hash=$(sha256sum buildozer.spec | cut -d ' ' -f 1)
         sed -i 's/# android.sdk = auto/android.sdk = 33.0.2/' buildozer.spec
+        modified_hash=$(sha256sum buildozer.spec | cut -d ' ' -f 1)
+        if [ "$original_hash" != "$modified_hash" ]; then
+          echo "buildozer.spec was modified."
+        else
+          echo "No changes made to buildozer.spec."
+        fi
 
     - name: Build APK
       run: |
