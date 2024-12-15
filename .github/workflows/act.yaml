@@ -27,7 +27,6 @@ jobs:
         unzip -q commandlinetools.zip -d $ANDROID_SDK_ROOT/cmdline-tools
         mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
         export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
-        export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
     - name: Accept licenses and install SDK components
       env:
@@ -48,6 +47,10 @@ jobs:
 
     - name: Initialize Buildozer
       run: buildozer init
+
+    - name: Update buildozer.spec for stable Build Tools
+      run: |
+        sed -i 's/# android.sdk = auto/android.sdk = 33.0.2/' buildozer.spec
 
     - name: Build APK
       run: |
