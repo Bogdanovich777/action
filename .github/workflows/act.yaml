@@ -27,7 +27,6 @@ jobs:
         unzip -q commandlinetools.zip -d $ANDROID_HOME/cmdline-tools
         mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
         export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-        export ANDROID_HOME=$ANDROID_HOME
 
     - name: Accept licenses and install SDK components
       env:
@@ -38,7 +37,7 @@ jobs:
         echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_HOME/licenses/android-sdk-license
         echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
         yes | sdkmanager --licenses
-        sdkmanager "build-tools;33.0.2" "platforms;android-33" "platform-tools"
+        sdkmanager --install "build-tools;33.0.2" "platforms;android-33" "platform-tools"
 
     - name: Install Buildozer
       run: |
