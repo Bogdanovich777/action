@@ -28,13 +28,6 @@ jobs:
         mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
         export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
 
-    - name: Remove RC versions of Build Tools
-      env:
-        ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
-      run: |
-        export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
-        sdkmanager --uninstall "build-tools;36.0.0-rc1" || true
-
     - name: Accept specific licenses
       env:
         ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
@@ -54,7 +47,7 @@ jobs:
         ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
       run: |
         export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
-        sdkmanager --install "build-tools;33.0.2" "platforms;android-33" "platform-tools"
+        sdkmanager --install "build-tools;33.0.2" "platforms;android-33" "platform-tools" || true
 
     - name: Install Buildozer
       run: |
