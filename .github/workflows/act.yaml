@@ -24,13 +24,12 @@ jobs:
       run: |
         mkdir -p $ANDROID_HOME/cmdline-tools
         curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip commandlinetools.zip -d $ANDROID_HOME/cmdline-tools
+        unzip -q commandlinetools.zip -d $ANDROID_HOME/cmdline-tools
         mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
         export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-        export PATH=$PATH:$ANDROID_HOME/platform-tools
         export ANDROID_HOME=$ANDROID_HOME
 
-    - name: Install Android SDK and accept licenses
+    - name: Accept licenses and install SDK components
       env:
         ANDROID_HOME: ${{ runner.temp }}/android-sdk
       run: |
