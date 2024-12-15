@@ -18,11 +18,14 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Install dependencies
+    - name: Install Android Command Line Tools
       run: |
-        sudo apt update
-        sudo apt install -y git zip openjdk-11-jdk python3-pip
-        pip3 install buildozer cython
+        mkdir -p $ANDROID_HOME/cmdline-tools
+        curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+        unzip commandlinetools.zip -d $ANDROID_HOME/cmdline-tools
+        mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+        rm commandlinetools.zip
+        export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
     - name: Install Android SDK and accept licenses
       run: |
@@ -31,6 +34,12 @@ jobs:
         echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
         yes | sdkmanager --licenses
         sdkmanager "build-tools;31.0.0" "platforms;android-31"
+
+    - name: Install Buildozer
+      run: |
+        sudo apt update
+        sudo apt install -y git zip openjdk-11-jdk python3-pip
+        pip3 install buildozer cython
 
     - name: Initialize Buildozer
       run: buildozer init
